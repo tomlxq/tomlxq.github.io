@@ -21,6 +21,11 @@ function GetBooksRank(query) {
     jsonp(url)
 }
 
+/**
+ * 解决的就是跨域访问的问题
+ * 访问某个 url，服务器返回的 JSON 会传递给一个名叫 callback 的全局函数
+ * @param url
+ */
 function jsonp(url) {
     const script = document.createElement("script");
     script.type = "text/javascript";
@@ -29,6 +34,16 @@ function jsonp(url) {
     document.body.append(script)
 }
 
+/**
+ * 豆瓣的搜索 API 是这样的：
+ * https://api.douban.com/v2/book/search?q=[q]&start=[start]
+ * 其中 q 是需要搜索的文本
+ * start 为每页数据的书籍条目的起始下标。如果不传入 start 参数，则该 API 返回第一页数据。
+ * 每页数据都有字段 count，表示该页的书籍条目数量，
+ * 字段 start 表示该页书籍条目的起始下标，
+ * 字段 total 表示书籍条目总数。
+ * @param page
+ */
 function callback(page) {
     const count = page['count'];
     const start = page['start'];
@@ -87,7 +102,12 @@ function bayesian(books) {
         book['rating']['bayesian'] = (C * m + n * parseFloat(book['rating']['average'])) / (C + n)
     }
 }
-
+function addHref(url,li,text) {
+    const a = document.createElement("a");
+    a.href = url;
+    li.appendChild(a);
+    a.appendChild(text);
+}
 function showBooks() {
     const progress = document.getElementById("searching-progress");
     progress.hidden = true;
@@ -96,7 +116,13 @@ function showBooks() {
     for (let book of books) {
         const li = document.createElement("li");
         ul.appendChild(li);
-
+        const url = book['alt'];
+        let title = book['title'];
+        if (book['subtitle'].length > 0)
+            title += ": " + book['subtitle'];
+        const text = document.createTextNode(`${book['rating']['bayesian'].toFixed(2)} - ${title}`);
+        addHref(url,li,text);
+        /*
         const a = document.createElement("a");
         a.href = book['alt'];
         li.appendChild(a);
@@ -106,5 +132,11 @@ function showBooks() {
             title += ": " + book['subtitle'];
         const text = document.createTextNode(`${book['rating']['bayesian'].toFixed(2)} - ${title}`);
         a.appendChild(text);
+        */
+        li.appendChild("%20");
+        addHref(`http://zhannei.baidu.com/cse/search?s=1841543737020962857&entry=1&q=${title}`,li,`下载1`);
+        li.appendChild("%20");
+        addHref(`https://www.baidu.com/s?wd=site%3Ajava1234.com%20${title}`,li,`下载2`);
+
     }
 }

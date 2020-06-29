@@ -133,10 +133,10 @@ function showBooks() {
         const text = document.createTextNode(`${book['rating']['bayesian'].toFixed(2)} - ${title}`);
         a.appendChild(text);
         */
-        li.appendChild("%20");
-        addHref(`http://zhannei.baidu.com/cse/search?s=1841543737020962857&entry=1&q=${title}`,li,`下载1`);
-        li.appendChild("%20");
-        addHref(`https://www.baidu.com/s?wd=site%3Ajava1234.com%20${title}`,li,`下载2`);
+        li.appendChild(document.createTextNode(" "));
+        addHref(`http://zhannei.baidu.com/cse/search?s=1841543737020962857&entry=1&q=${title}`,li,"下载1");
+        li.appendChild(document.createTextNode(" "));
+        addHref(`https://www.baidu.com/s?wd=site%3Ajava1234.com%20${title}`,li,"下载2");
 
     }
 }

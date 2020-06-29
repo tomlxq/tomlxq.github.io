@@ -102,11 +102,11 @@ function bayesian(books) {
         book['rating']['bayesian'] = (C * m + n * parseFloat(book['rating']['average'])) / (C + n)
     }
 }
-function addHref(url,li,text) {
+function addHref(url,li,txt) {
     const a = document.createElement("a");
     a.href = url;
     li.appendChild(a);
-    a.appendChild(text);
+    a.appendChild(document.createTextNode(txt));
 }
 function showBooks() {
     const progress = document.getElementById("searching-progress");
@@ -120,7 +120,7 @@ function showBooks() {
         let title = book['title'];
         if (book['subtitle'].length > 0)
             title += ": " + book['subtitle'];
-        const text = document.createTextNode(`${book['rating']['bayesian'].toFixed(2)} - ${title}`);
+        const text = `${book['rating']['bayesian'].toFixed(2)} - ${title}`;
         addHref(url,li,text);
         /*
         const a = document.createElement("a");

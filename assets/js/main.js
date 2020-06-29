@@ -104,6 +104,7 @@ function bayesian(books) {
 }
 function addHref(url,li,txt) {
     const a = document.createElement("a");
+    a.target = '_blank';
     a.href = url;
     li.appendChild(a);
     a.appendChild(document.createTextNode(txt));
@@ -111,7 +112,6 @@ function addHref(url,li,txt) {
 function showBooks() {
     const progress = document.getElementById("searching-progress");
     progress.hidden = true;
-
     const ul = document.getElementById("search-result-list");
     for (let book of books) {
         const li = document.createElement("li");
@@ -122,17 +122,6 @@ function showBooks() {
             title += ": " + book['subtitle'];
         const text = `${book['rating']['bayesian'].toFixed(2)} - ${title}`;
         addHref(url,li,text);
-        /*
-        const a = document.createElement("a");
-        a.href = book['alt'];
-        li.appendChild(a);
-
-        let title = book['title'];
-        if (book['subtitle'].length > 0)
-            title += ": " + book['subtitle'];
-        const text = document.createTextNode(`${book['rating']['bayesian'].toFixed(2)} - ${title}`);
-        a.appendChild(text);
-        */
         li.appendChild(document.createTextNode(" "));
         addHref(`http://zhannei.baidu.com/cse/search?s=1841543737020962857&entry=1&q=${title}`,li,"下载1");
         li.appendChild(document.createTextNode(" "));
